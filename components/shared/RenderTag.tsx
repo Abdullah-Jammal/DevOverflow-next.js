@@ -3,10 +3,10 @@ import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 
 interface TagsProps {
+  _id: string;
   name: string;
-  totalQuestions: number;
-  _id: number;
-  showCount: boolean;
+  totalQuestions?: number;
+  showCount?: boolean;
 }
 
 const RenderTag = ({ name, totalQuestions, _id, showCount }: TagsProps) => {
