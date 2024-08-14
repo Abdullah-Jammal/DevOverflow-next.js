@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter, usePathname } from "next/navigation";
 
 import { Editor } from "@tinymce/tinymce-react";
 
@@ -24,7 +25,12 @@ import { createQuestion } from "@/lib/actions/question.action";
 
 const type: any = "create";
 
-const Question = () => {
+interface Props {
+  mongoUserId: string;
+}
+
+const Question = ({ mongoUserId }: Props) => {
+  const router = useRouter();
   const editorRef = useRef();
   const [isSubmitting, setIsSubmmiting] = useState(false);
   const form = useForm<z.infer<typeof QuestionsSchema>>({
@@ -40,7 +46,13 @@ const Question = () => {
   async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
     setIsSubmmiting(true);
     try {
-      await createQuestion({});
+      await createQuestion({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+      });
+      router.push("/");
     } catch (error) {
       console.log("error", error);
     } finally {
