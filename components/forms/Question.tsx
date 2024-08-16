@@ -30,6 +30,7 @@ interface Props {
 }
 
 const Question = ({ mongoUserId }: Props) => {
+  const pathname = usePathname();
   const router = useRouter();
   const editorRef = useRef();
   const [isSubmitting, setIsSubmmiting] = useState(false);
@@ -51,6 +52,7 @@ const Question = ({ mongoUserId }: Props) => {
         content: values.explanation,
         tags: values.tags,
         author: JSON.parse(mongoUserId),
+        path: pathname,
       });
       router.push("/");
     } catch (error) {
